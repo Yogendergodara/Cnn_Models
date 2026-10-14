@@ -1,0 +1,42 @@
+[project]
+name = "cifar-cnn"
+version = "0.1.0"
+description = "Production-style CIFAR-10 CNN: training, evaluation, export and serving"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.2",
+    "torchvision>=0.17",
+    "numpy",
+    "pyyaml",
+    "scikit-learn",
+    "matplotlib",
+    "onnx",
+    "onnxscript",
+    "onnxruntime",
+    "pillow",
+]
+
+[project.optional-dependencies]
+track = ["tensorboard"]
+serve = ["fastapi", "uvicorn[standard]", "python-multipart", "prometheus-fastapi-instrumentator", "httpx"]
+dev = ["pytest", "ruff", "tensorboard", "fastapi", "python-multipart", "prometheus-fastapi-instrumentator", "httpx"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+filterwarnings = ["ignore::FutureWarning"]
+
+[tool.ruff]
+line-length = 110
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+ignore = ["B008"]   # FastAPI declares File(...) as a default argument by design

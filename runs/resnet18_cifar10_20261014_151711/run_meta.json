@@ -1,0 +1,36 @@
+{
+  "config": {
+    "seed": 42,
+    "experiment": "resnet18_cifar10",
+    "output_dir": "runs",
+    "data": {
+      "root": "C:\\Users\\yogender.godara\\Downloads\\dee_transformer_ml\\data",
+      "val_size": 5000,
+      "batch_size": 128,
+      "num_workers": 4,
+      "augment": "trivial",
+      "random_erasing": 0.25,
+      "mixup_alpha": 0.0
+    },
+    "model": {
+      "name": "resnet18",
+      "num_classes": 10,
+      "dropout": 0.2
+    },
+    "train": {
+      "epochs": 60,
+      "optimizer": "sgd",
+      "lr": 0.1,
+      "momentum": 0.9,
+      "weight_decay": 0.0005,
+      "label_smoothing": 0.1,
+      "grad_clip": 2.0,
+      "amp": true,
+      "early_stop_patience": 15,
+      "compile": false
+    }
+  },
+  "git_commit": "unknown",
+  "torch": "2.14.1+cpu",
+  "device": "cpu"
+}

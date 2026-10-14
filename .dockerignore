@@ -1,0 +1,9 @@
+**/__pycache__
+**/*.pyc
+data/
+tests/
+configs/
+runs/*
+!runs/best_model
+!runs/best_model/**
+.github/

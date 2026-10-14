@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+python-multipart
+onnxruntime
+pillow
+numpy
+prometheus-fastapi-instrumentator
