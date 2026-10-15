@@ -43,14 +43,11 @@ def build_loaders(cfg: DataConfig, seed: int):
     train_tf, eval_tf = build_transforms(cfg)
 
     # Use the existing local copy only; a wrong root fails here instead of re-downloading 170 MB
-    if not (Path(cfg.root) / "cifar-100-python").is_dir():
-        raise FileNotFoundError(
-            f"CIFAR-100 not found in {Path(cfg.root).resolve()} (expected a cifar-100-python folder). "
-            "Fix data.root in the config."
-        )
-    full_train_aug = datasets.CIFAR100(cfg.root, train=True, download=False, transform=train_tf)
+    # Use the local copy if present; otherwise download it into data.root (needs internet and a writable root)
+    download = not (Path(cfg.root) / "cifar-100-python").is_dir()
+    full_train_aug = datasets.CIFAR100(cfg.root, train=True, download=download, transform=train_tf)
     full_train_eval = datasets.CIFAR100(cfg.root, train=True, download=False, transform=eval_tf)
-    test_set = datasets.CIFAR100(cfg.root, train=False, download=False, transform=eval_tf)
+    test_set = datasets.CIFAR100(cfg.root, train=False, download=download, transform=eval_tf)
 
     # Fixed, seeded split so every run uses the same validation images
     g = torch.Generator().manual_seed(seed)
