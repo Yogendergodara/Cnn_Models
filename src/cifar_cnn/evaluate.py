@@ -13,17 +13,48 @@ from sklearn.metrics import ConfusionMatrixDisplay, classification_report, confu
 
 
 @torch.no_grad()
-def predict(model, loader, device, tta: bool = True):
+def collect_logits(model, loader, device, tta: bool = True):
+    """Raw logits as (views, N, classes): the plain image and, with tta, its horizontal flip."""
     model.eval()
-    all_probs, all_labels = [], []
+    all_logits, all_labels = [], []
     for images, labels in loader:
         images = images.to(device, non_blocking=True)
-        probs = F.softmax(model(images), dim=1)
+        views = [model(images)]
         if tta:
-            probs = (probs + F.softmax(model(torch.flip(images, dims=[3])), dim=1)) / 2
-        all_probs.append(probs.float().cpu())
+            views.append(model(torch.flip(images, dims=[3])))
+        all_logits.append(torch.stack(views).float().cpu())
         all_labels.append(labels)
-    return torch.cat(all_probs).numpy(), torch.cat(all_labels).numpy()
+    return torch.cat(all_logits, dim=1), torch.cat(all_labels)
+
+
+def probs_from_logits(logits, temperature: float = 1.0):
+    return F.softmax(logits / temperature, dim=2).mean(0)
+
+
+def predict(model, loader, device, tta: bool = True, temperature: float = 1.0):
+    logits, labels = collect_logits(model, loader, device, tta)
+    return probs_from_logits(logits, temperature).numpy(), labels.numpy()
+
+
+def fit_temperature(logits, labels) -> float:
+    """Single scalar T minimising NLL of the (TTA-averaged) probabilities. Never changes the argmax."""
+    log_t = torch.zeros(1, requires_grad=True)
+    opt = torch.optim.LBFGS([log_t], lr=0.1, max_iter=100)
+
+    def closure():
+        opt.zero_grad()
+        loss = F.nll_loss(torch.log(probs_from_logits(logits, log_t.exp()) + 1e-12), labels)
+        loss.backward()
+        return loss
+
+    opt.step(closure)
+    return float(log_t.exp().detach())
+
+
+def calibrate(model, val_loader, device) -> float:
+    """Fit the temperature on the validation set (the test set stays untouched)."""
+    logits, labels = collect_logits(model, val_loader, device, tta=True)
+    return fit_temperature(logits, labels)
 
 
 def expected_calibration_error(probs, labels, n_bins: int = 15) -> float:
@@ -38,8 +69,10 @@ def expected_calibration_error(probs, labels, n_bins: int = 15) -> float:
     return float(ece)
 
 
-def full_report(model, loader, device, classes, out_dir: Path) -> dict:
-    probs, labels = predict(model, loader, device, tta=True)
+def full_report(model, loader, device, classes, out_dir: Path, temperature: float = 1.0) -> dict:
+    logits, labels = collect_logits(model, loader, device, tta=True)
+    labels = labels.numpy()
+    probs = probs_from_logits(logits, temperature).numpy()
     preds = probs.argmax(1)
 
     report = classification_report(labels, preds, target_names=classes, output_dict=True, digits=4,
@@ -51,6 +84,8 @@ def full_report(model, loader, device, classes, out_dir: Path) -> dict:
         "accuracy": float((preds == labels).mean()),
         "macro_f1": float(report["macro avg"]["f1-score"]),
         "ece": expected_calibration_error(probs, labels),
+        "ece_uncalibrated": expected_calibration_error(probs_from_logits(logits).numpy(), labels),
+        "temperature": temperature,
         "per_class_accuracy": per_class_acc,
         "classification_report": report,
     }

@@ -10,7 +10,7 @@ import torch
 from .config import Config
 from .data import CLASSES, build_loaders
 from .engine import Trainer
-from .evaluate import full_report
+from .evaluate import calibrate, full_report
 from .export import export_all
 from .models import build_model
 from .tracking import Tracker, save_history, setup_logging
@@ -61,9 +61,11 @@ def main():
 
         # Test set is used exactly once, on the best checkpoint
         trainer.resume(run_dir / "best.pt")
-        report = full_report(trainer.model, test_loader, device, CLASSES, run_dir)
+        temperature = calibrate(trainer.model, val_loader, device)
+        log.info("Fitted temperature %.3f on the validation set", temperature)
+        report = full_report(trainer.model, test_loader, device, CLASSES, run_dir, temperature)
         tracker.log_metrics({f"test_{k}": v for k, v in report.items() if isinstance(v, float)})
-        export_all(trainer.model, run_dir, device)
+        export_all(trainer.model, run_dir, device, temperature)
         tracker.log_artifacts(run_dir)
 
 

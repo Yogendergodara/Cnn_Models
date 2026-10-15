@@ -1,0 +1,2 @@
+2026-10-14 15:31:16,082 | INFO    | train | Run dir runs\resnet18_cifar10_20261014_153116 | device cpu
+2026-10-14 15:31:17,471 | INFO    | train | Model resnet18: 11.17M params

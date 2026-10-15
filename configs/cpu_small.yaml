@@ -1,4 +1,4 @@
-# CPU-friendly settings: ResNet-small (0.31M params), ~88-90% test accuracy.
+# CPU-friendly settings: ResNet-small (0.31M params), ~86% test accuracy (capacity-limited; see cpu_medium.yaml for more).
 # Run: python -m cifar_cnn.train --config configs/cpu_small.yaml
 seed: 42
 experiment: resnet_small_cpu

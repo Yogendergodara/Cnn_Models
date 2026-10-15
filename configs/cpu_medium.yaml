@@ -1,0 +1,31 @@
+# CPU config for higher accuracy: 2x deeper than cpu_small, lighter augmentation, more epochs.
+# Run: python -m cifar_cnn.train --config configs/cpu_medium.yaml
+seed: 42
+experiment: resnet_medium_cpu
+output_dir: runs
+
+data:
+  root: ../../data      # relative to this file -> dee_transformer_ml/data (existing CIFAR-10)
+  val_size: 5000
+  batch_size: 128
+  num_workers: 4
+  augment: basic        # none | basic | trivial
+  random_erasing: 0.1
+  mixup_alpha: 0.0      # 0 disables MixUp/CutMix
+
+model:
+  name: resnet_medium
+  num_classes: 10
+  dropout: 0.1
+
+train:
+  epochs: 40
+  optimizer: sgd        # sgd (lr ~0.1) | adamw (lr ~0.003)
+  lr: 0.1
+  momentum: 0.9
+  weight_decay: 5.0e-4
+  label_smoothing: 0.1
+  grad_clip: 2.0
+  amp: false            # mixed precision only helps on a GPU
+  early_stop_patience: 12
+  compile: false

@@ -1,0 +1,11 @@
+__pycache__/
+*.py[oc]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+# training outputs: keep run_meta/logs out of git too, ship models via the registry
+runs/*/*.pt
+runs/*/*.pt2
+runs/*/*.ts
+runs/*/*.onnx
+runs/*/tb/

@@ -48,11 +48,14 @@ class Config:
     @classmethod
     def from_yaml(cls, path: str | Path) -> "Config":
         path = Path(path)
-        raw = yaml.safe_load(path.read_text())
+        return cls.from_dict(yaml.safe_load(path.read_text()), base_dir=path.parent)
+
+    @classmethod
+    def from_dict(cls, raw: dict, base_dir: Path | None = None) -> "Config":
         data = DataConfig(**raw.get("data", {}))
         # A relative data root is resolved against the config file, so it works from any folder
-        if not Path(data.root).is_absolute():
-            data.root = str((path.parent / data.root).resolve())
+        if base_dir is not None and not Path(data.root).is_absolute():
+            data.root = str((base_dir / data.root).resolve())
         return cls(
             seed=raw.get("seed", 42),
             experiment=raw.get("experiment", "run"),

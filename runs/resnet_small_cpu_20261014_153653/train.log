@@ -1,0 +1,34 @@
+2026-10-14 15:36:53,125 | INFO    | train | Run dir runs\resnet_small_cpu_20261014_153653 | device cpu
+2026-10-14 15:36:54,416 | INFO    | train | Model resnet_small: 0.31M params
+2026-10-14 15:38:41,840 | INFO    | cifar_cnn.engine | epoch 1 | train 2.1576 / 0.2108 | val 1.8804 / 0.2966 | lr 0.01524 | 107.3s
+2026-10-14 15:40:16,198 | INFO    | cifar_cnn.engine | epoch 2 | train 2.0313 / 0.2701 | val 1.7024 / 0.3922 | lr 0.04371 | 94.3s
+2026-10-14 15:41:47,200 | INFO    | cifar_cnn.engine | epoch 3 | train 1.9414 / 0.3260 | val 1.5346 / 0.4408 | lr 0.07606 | 91.0s
+2026-10-14 15:43:18,518 | INFO    | cifar_cnn.engine | epoch 4 | train 1.8506 / 0.3706 | val 1.3793 / 0.5046 | lr 0.09713 | 91.3s
+2026-10-14 15:44:52,295 | INFO    | cifar_cnn.engine | epoch 5 | train 1.7617 / 0.4181 | val 1.2333 / 0.5668 | lr 0.09990 | 93.8s
+2026-10-14 15:46:24,436 | INFO    | cifar_cnn.engine | epoch 6 | train 1.7004 / 0.4581 | val 1.1437 / 0.6012 | lr 0.09915 | 92.1s
+2026-10-14 15:47:56,198 | INFO    | cifar_cnn.engine | epoch 7 | train 1.6464 / 0.4820 | val 1.1154 / 0.6158 | lr 0.09764 | 91.8s
+2026-10-14 15:49:27,503 | INFO    | cifar_cnn.engine | epoch 8 | train 1.6134 / 0.5016 | val 1.0680 / 0.6404 | lr 0.09542 | 91.3s
+2026-10-14 15:51:00,011 | INFO    | cifar_cnn.engine | epoch 9 | train 1.5733 / 0.5180 | val 1.0993 / 0.6274 | lr 0.09250 | 92.5s
+2026-10-14 15:52:30,975 | INFO    | cifar_cnn.engine | epoch 10 | train 1.5421 / 0.5344 | val 1.0360 / 0.6428 | lr 0.08894 | 91.0s
+2026-10-14 15:53:54,279 | INFO    | cifar_cnn.engine | epoch 11 | train 1.5056 / 0.5549 | val 0.9286 / 0.6776 | lr 0.08479 | 83.3s
+2026-10-14 15:55:11,886 | INFO    | cifar_cnn.engine | epoch 12 | train 1.4859 / 0.5632 | val 0.9104 / 0.6942 | lr 0.08012 | 77.6s
+2026-10-14 15:56:27,077 | INFO    | cifar_cnn.engine | epoch 13 | train 1.4566 / 0.5821 | val 0.9045 / 0.6936 | lr 0.07498 | 75.2s
+2026-10-14 15:57:45,657 | INFO    | cifar_cnn.engine | epoch 14 | train 1.4316 / 0.5908 | val 0.9671 / 0.6672 | lr 0.06947 | 78.6s
+2026-10-14 15:59:11,656 | INFO    | cifar_cnn.engine | epoch 15 | train 1.4167 / 0.5967 | val 0.8619 / 0.7098 | lr 0.06367 | 86.0s
+2026-10-14 16:00:33,351 | INFO    | cifar_cnn.engine | epoch 16 | train 1.4051 / 0.6053 | val 0.7847 / 0.7398 | lr 0.05765 | 81.7s
+2026-10-14 16:01:55,981 | INFO    | cifar_cnn.engine | epoch 17 | train 1.3801 / 0.6167 | val 0.7924 / 0.7348 | lr 0.05152 | 82.6s
+2026-10-14 16:03:17,639 | INFO    | cifar_cnn.engine | epoch 18 | train 1.3618 / 0.6260 | val 0.7016 / 0.7696 | lr 0.04537 | 81.7s
+2026-10-14 16:04:48,642 | INFO    | cifar_cnn.engine | epoch 19 | train 1.3465 / 0.6355 | val 0.6679 / 0.7910 | lr 0.03929 | 91.0s
+2026-10-14 16:06:22,567 | INFO    | cifar_cnn.engine | epoch 20 | train 1.3305 / 0.6425 | val 0.6570 / 0.7852 | lr 0.03337 | 93.9s
+2026-10-14 16:07:54,133 | INFO    | cifar_cnn.engine | epoch 21 | train 1.3132 / 0.6509 | val 0.6875 / 0.7760 | lr 0.02770 | 91.6s
+2026-10-14 16:09:26,166 | INFO    | cifar_cnn.engine | epoch 22 | train 1.2958 / 0.6587 | val 0.6641 / 0.7852 | lr 0.02237 | 92.0s
+2026-10-14 16:10:53,149 | INFO    | cifar_cnn.engine | epoch 23 | train 1.2724 / 0.6686 | val 0.6223 / 0.7932 | lr 0.01746 | 87.0s
+2026-10-14 16:12:24,514 | INFO    | cifar_cnn.engine | epoch 24 | train 1.2599 / 0.6758 | val 0.5772 / 0.8222 | lr 0.01304 | 91.4s
+2026-10-14 16:13:51,956 | INFO    | cifar_cnn.engine | epoch 25 | train 1.2375 / 0.6873 | val 0.5826 / 0.8184 | lr 0.00918 | 87.4s
+2026-10-14 16:15:22,361 | INFO    | cifar_cnn.engine | epoch 26 | train 1.2157 / 0.6980 | val 0.5202 / 0.8358 | lr 0.00594 | 90.4s
+2026-10-14 16:16:52,894 | INFO    | cifar_cnn.engine | epoch 27 | train 1.1987 / 0.7062 | val 0.4925 / 0.8508 | lr 0.00337 | 90.5s
+2026-10-14 16:18:23,679 | INFO    | cifar_cnn.engine | epoch 28 | train 1.1797 / 0.7148 | val 0.4741 / 0.8534 | lr 0.00151 | 90.8s
+2026-10-14 16:19:53,997 | INFO    | cifar_cnn.engine | epoch 29 | train 1.1665 / 0.7220 | val 0.4668 / 0.8594 | lr 0.00038 | 90.3s
+2026-10-14 16:21:24,414 | INFO    | cifar_cnn.engine | epoch 30 | train 1.1582 / 0.7271 | val 0.4659 / 0.8596 | lr 0.00000 | 90.4s
+2026-10-14 16:21:24,675 | INFO    | cifar_cnn.engine | Resumed from runs\resnet_small_cpu_20261014_153653\best.pt at epoch 30 (best val acc 0.8596)
+2026-10-14 16:21:49,033 | INFO    | cifar_cnn.export | Exported ONNX and torch.export models to runs\resnet_small_cpu_20261014_153653 (parity checked)

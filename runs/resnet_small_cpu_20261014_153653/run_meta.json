@@ -1,0 +1,36 @@
+{
+  "config": {
+    "seed": 42,
+    "experiment": "resnet_small_cpu",
+    "output_dir": "runs",
+    "data": {
+      "root": "C:\\Users\\yogender.godara\\Downloads\\dee_transformer_ml\\data",
+      "val_size": 5000,
+      "batch_size": 128,
+      "num_workers": 4,
+      "augment": "trivial",
+      "random_erasing": 0.25,
+      "mixup_alpha": 0.0
+    },
+    "model": {
+      "name": "resnet_small",
+      "num_classes": 10,
+      "dropout": 0.1
+    },
+    "train": {
+      "epochs": 30,
+      "optimizer": "sgd",
+      "lr": 0.1,
+      "momentum": 0.9,
+      "weight_decay": 0.0005,
+      "label_smoothing": 0.1,
+      "grad_clip": 2.0,
+      "amp": false,
+      "early_stop_patience": 10,
+      "compile": false
+    }
+  },
+  "git_commit": "5f19fb4783f75a9570fdd07e814c0ddc7e7e92c8",
+  "torch": "2.14.1+cpu",
+  "device": "cpu"
+}

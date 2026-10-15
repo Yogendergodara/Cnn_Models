@@ -53,3 +53,15 @@ def test_api_health_predict_and_input_validation(model_dir, monkeypatch):
     assert bad_type.status_code == 415
     not_an_image = client.post("/predict", files=[("files", ("a.png", b"not an image", "image/png"))])
     assert not_an_image.status_code == 400
+
+
+def test_predictor_tta_matches_flip_averaged_torch_probs(model_dir):
+    from cifar_cnn.serve.predictor import Predictor
+    pred = Predictor(model_dir, tta=True)
+    png = _png_bytes()
+    x = torch.from_numpy(pred.preprocess(png)).unsqueeze(0)
+    plain = pred.session.run(None, {"images": x.numpy()})[0]
+    flipped = pred.session.run(None, {"images": np.ascontiguousarray(x.numpy()[:, :, :, ::-1])})[0]
+    want = (pred._softmax(plain) + pred._softmax(flipped)) / 2
+    got = pred.predict([png], top_k=10)[0]["top_k"]
+    np.testing.assert_allclose(sorted(g["confidence"] for g in got), sorted(want[0]), rtol=1e-4, atol=1e-5)

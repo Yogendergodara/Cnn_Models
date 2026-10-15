@@ -70,6 +70,7 @@ class CifarResNet(nn.Module):
 
 MODELS = {
     "resnet_small": lambda nc, d: CifarResNet((1, 1, 1), (32, 64, 128), nc, d),  # ~0.31M params, CPU-friendly
+    "resnet_medium": lambda nc, d: CifarResNet((2, 2, 2), (32, 64, 128), nc, d),  # ~0.7M params
     "resnet18":     lambda nc, d: CifarResNet((2, 2, 2, 2), (64, 128, 256, 512), nc, d),
     "resnet34":     lambda nc, d: CifarResNet((3, 4, 6, 3), (64, 128, 256, 512), nc, d),
 }

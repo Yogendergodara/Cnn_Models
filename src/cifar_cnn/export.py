@@ -11,7 +11,7 @@ from .data import CIFAR10_MEAN, CIFAR10_STD, CLASSES
 log = logging.getLogger(__name__)
 
 
-def export_all(model, run_dir: Path, device) -> None:
+def export_all(model, run_dir: Path, device, temperature: float = 1.0) -> None:
     model = getattr(model, "_orig_mod", model).float().cpu().eval()
     # Batch of 2, not 1: torch.export specialises a size-1 dim to a constant
     example = torch.randn(2, 3, 32, 32)
@@ -46,5 +46,6 @@ def export_all(model, run_dir: Path, device) -> None:
     (run_dir / "model_meta.json").write_text(json.dumps({
         "classes": CLASSES, "input_size": [3, 32, 32],
         "mean": CIFAR10_MEAN, "std": CIFAR10_STD,
+        "temperature": temperature,     # divide logits by this before softmax (calibration)
     }, indent=2))
     log.info("Exported ONNX and torch.export models to %s (parity checked)", run_dir)
