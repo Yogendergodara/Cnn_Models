@@ -91,8 +91,10 @@ def full_report(model, loader, device, classes, out_dir: Path, temperature: floa
     }
     (out_dir / "test_report.json").write_text(json.dumps(result, indent=2))
 
-    fig, ax = plt.subplots(figsize=(8, 8))
-    ConfusionMatrixDisplay(cm, display_labels=classes).plot(ax=ax, xticks_rotation=45, colorbar=False)
+    fig, ax = plt.subplots(figsize=(24, 24))       # 100 classes: big canvas, no per-cell numbers
+    ConfusionMatrixDisplay(cm, display_labels=classes).plot(ax=ax, xticks_rotation=90, colorbar=False,
+                                                            include_values=False)
+    ax.tick_params(labelsize=6)
     ax.set_title(f"Test confusion matrix (acc {result['accuracy']:.2%})")
     fig.tight_layout()
     fig.savefig(out_dir / "confusion_matrix.png", dpi=150)

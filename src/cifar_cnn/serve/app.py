@@ -16,7 +16,7 @@ LOW_CONFIDENCE = 0.5
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)-7s | %(name)s | %(message)s")
 log = logging.getLogger("serve")
-app = FastAPI(title="CIFAR-10 classifier", version=MODEL_VERSION)
+app = FastAPI(title="CIFAR-100 classifier", version=MODEL_VERSION)
 Instrumentator().instrument(app).expose(app)          # /metrics for Prometheus
 predictor = Predictor(MODEL_DIR)
 

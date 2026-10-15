@@ -9,10 +9,21 @@ from torchvision import transforms as T
 from .config import DataConfig
 from .utils import seed_worker
 
-CIFAR10_MEAN = (0.4914, 0.4822, 0.4465)
-CIFAR10_STD = (0.2470, 0.2435, 0.2616)
-CLASSES = ("airplane", "automobile", "bird", "cat", "deer",
-           "dog", "frog", "horse", "ship", "truck")
+CIFAR100_MEAN = (0.5071, 0.4865, 0.4409)
+CIFAR100_STD = (0.2673, 0.2564, 0.2762)
+CLASSES = (
+    "apple", "aquarium_fish", "baby", "bear", "beaver", "bed", "bee", "beetle", "bicycle", "bottle",
+    "bowl", "boy", "bridge", "bus", "butterfly", "camel", "can", "castle", "caterpillar", "cattle",
+    "chair", "chimpanzee", "clock", "cloud", "cockroach", "couch", "crab", "crocodile", "cup", "dinosaur",
+    "dolphin", "elephant", "flatfish", "forest", "fox", "girl", "hamster", "house", "kangaroo", "keyboard",
+    "lamp", "lawn_mower", "leopard", "lion", "lizard", "lobster", "man", "maple_tree", "motorcycle",
+    "mountain", "mouse", "mushroom", "oak_tree", "orange", "orchid", "otter", "palm_tree", "pear",
+    "pickup_truck", "pine_tree", "plain", "plate", "poppy", "porcupine", "possum", "rabbit", "raccoon",
+    "ray", "road", "rocket", "rose", "sea", "seal", "shark", "shrew", "skunk", "skyscraper", "snail",
+    "snake", "spider", "squirrel", "streetcar", "sunflower", "sweet_pepper", "table", "tank", "telephone",
+    "television", "tiger", "tractor", "train", "trout", "tulip", "turtle", "wardrobe", "whale",
+    "willow_tree", "wolf", "woman", "worm",
+)
 
 
 def build_transforms(cfg: DataConfig):
@@ -20,11 +31,11 @@ def build_transforms(cfg: DataConfig):
                 T.RandomHorizontalFlip()]
     if cfg.augment == "trivial":
         train_tf.append(T.TrivialAugmentWide())
-    train_tf += [T.ToTensor(), T.Normalize(CIFAR10_MEAN, CIFAR10_STD)]
+    train_tf += [T.ToTensor(), T.Normalize(CIFAR100_MEAN, CIFAR100_STD)]
     if cfg.random_erasing > 0:
         train_tf.append(T.RandomErasing(p=cfg.random_erasing, value="random"))
 
-    eval_tf = T.Compose([T.ToTensor(), T.Normalize(CIFAR10_MEAN, CIFAR10_STD)])
+    eval_tf = T.Compose([T.ToTensor(), T.Normalize(CIFAR100_MEAN, CIFAR100_STD)])
     return T.Compose(train_tf), eval_tf
 
 
@@ -32,14 +43,14 @@ def build_loaders(cfg: DataConfig, seed: int):
     train_tf, eval_tf = build_transforms(cfg)
 
     # Use the existing local copy only; a wrong root fails here instead of re-downloading 170 MB
-    if not (Path(cfg.root) / "cifar-10-batches-py").is_dir():
+    if not (Path(cfg.root) / "cifar-100-python").is_dir():
         raise FileNotFoundError(
-            f"CIFAR-10 not found in {Path(cfg.root).resolve()} (expected a cifar-10-batches-py folder). "
+            f"CIFAR-100 not found in {Path(cfg.root).resolve()} (expected a cifar-100-python folder). "
             "Fix data.root in the config."
         )
-    full_train_aug = datasets.CIFAR10(cfg.root, train=True, download=False, transform=train_tf)
-    full_train_eval = datasets.CIFAR10(cfg.root, train=True, download=False, transform=eval_tf)
-    test_set = datasets.CIFAR10(cfg.root, train=False, download=False, transform=eval_tf)
+    full_train_aug = datasets.CIFAR100(cfg.root, train=True, download=False, transform=train_tf)
+    full_train_eval = datasets.CIFAR100(cfg.root, train=True, download=False, transform=eval_tf)
+    test_set = datasets.CIFAR100(cfg.root, train=False, download=False, transform=eval_tf)
 
     # Fixed, seeded split so every run uses the same validation images
     g = torch.Generator().manual_seed(seed)

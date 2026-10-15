@@ -1,9 +1,9 @@
 seed: 42
-experiment: resnet18_cifar10
+experiment: resnet18_cifar100
 output_dir: runs
 
 data:
-  root: ../../data      # relative to this file -> dee_transformer_ml/data (existing CIFAR-10)
+  root: ../../data      # relative to this file; must contain the cifar-100-python folder
   val_size: 5000
   batch_size: 128
   num_workers: 4
@@ -13,11 +13,11 @@ data:
 
 model:
   name: resnet18
-  num_classes: 10
+  num_classes: 100
   dropout: 0.2
 
 train:
-  epochs: 60
+  epochs: 100
   optimizer: sgd        # sgd (lr ~0.1) | adamw (lr ~0.003)
   lr: 0.1
   momentum: 0.9
@@ -25,5 +25,5 @@ train:
   label_smoothing: 0.1
   grad_clip: 2.0
   amp: true
-  early_stop_patience: 15
+  early_stop_patience: 25
   compile: false        

@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from .data import CIFAR10_MEAN, CIFAR10_STD, CLASSES
+from .data import CIFAR100_MEAN, CIFAR100_STD, CLASSES
 
 log = logging.getLogger(__name__)
 
@@ -45,7 +45,7 @@ def export_all(model, run_dir: Path, device, temperature: float = 1.0) -> None:
     # Everything a serving process needs, next to the weights
     (run_dir / "model_meta.json").write_text(json.dumps({
         "classes": CLASSES, "input_size": [3, 32, 32],
-        "mean": CIFAR10_MEAN, "std": CIFAR10_STD,
+        "mean": CIFAR100_MEAN, "std": CIFAR100_STD,
         "temperature": temperature,     # divide logits by this before softmax (calibration)
     }, indent=2))
     log.info("Exported ONNX and torch.export models to %s (parity checked)", run_dir)
